@@ -1,0 +1,207 @@
+package com.mycompany.sniffiemoroberto2;
+
+import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortDataListener;
+import com.fazecast.jSerialComm.SerialPortEvent;
+import com.fazecast.jSerialComm.SerialPortMessageListener;
+import java.io.InputStream;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Joaquin
+ */
+public class SniffiemoRoberto2 {
+
+//    public static void main(String[] args) {
+//        //listarPuertosSeriales();
+//        leerPuertoSerial("COM3");
+//
+//    }
+//
+//    //CONVERSOR DE BYTE A STRING HEX
+//    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+//
+//    public static String bytesToHex(byte[] bytes) {
+//        char[] hexChars = new char[bytes.length * 2];
+//        for (int j = 0; j < bytes.length; j++) {
+//            int v = bytes[j] & 0xFF;
+//            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+//            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+//        }
+//        return new String(hexChars);
+//    }
+//
+//    public static void leerPuertoSerial(String puerto) {
+//        //SerialPort comPort = SerialPort.getCommPorts()[0];
+//        SerialPort comPort = SerialPort.getCommPort(puerto);
+//        comPort.setComPortParameters(57600, 8, 1, 0);
+//        comPort.openPort();
+//
+//        //comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 100, 0);
+//        //comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+//        comPort.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
+//        comPort.setFlowControl(SerialPort.FLOW_CONTROL_DISABLED);
+//
+//        //String aux = "";
+//        while (true) {
+//            byte[] readBuffer = new byte[comPort.bytesAvailable()];
+//            int numRead = comPort.readBytes(readBuffer, readBuffer.length);
+//            String aux = bytesToHex(readBuffer);
+//
+//            if (!aux.isBlank()) {
+//                System.out.println(aux);
+//            }
+//
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(SniffiemoRoberto2.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//
+////        Scanner s = new Scanner(comPort.getInputStream());
+////        while (s.hasNextLine()) {
+////            String line = s.nextLine();
+////            System.out.println("Line of text from serial port: " + line);
+////        }
+////        try {
+////            while (true) {
+////                //byte[] readBuffer = new byte[1024];
+////                //int numRead = comPort.readBytes(readBuffer, readBuffer.length);
+////                //System.out.println("Read " + numRead + " bytes.");
+//////
+//////                InputStream in = comPort.getInputStream();
+//////                for (int j = 0; j < 1000; ++j) {
+//////                    //
+//////                    int hexIn = in.read();
+//////                    String s = Integer.toHexString(hexIn);
+//////                    if (s.length() < 2) {
+//////                        s = "0" + Integer.toHexString(hexIn);
+//////                    }
+//////                    s = s.toUpperCase();
+//////
+//////                    //System.out.printf("%02x ", in.read());
+//////                    System.out.print(s);
+//////                }
+//////                in.close();
+////
+//////
+//////                InputStream in = comPort.getInputStream();
+//////                byte[] readBuffer = in.readAllBytes();
+//////                for (int i = 0; i < readBuffer.length; ++i) {
+//////                    //
+//////                    int hexIn = readBuffer[i];
+//////                    String s = Integer.toHexString(hexIn);
+//////                    if (s.length() < 2) {
+//////                        s = "0" + Integer.toHexString(hexIn);
+//////                    }
+//////                    s = s.toUpperCase();
+//////
+//////                    //System.out.printf("%02x ", in.read());
+//////                    System.out.print(s);
+//////                }
+//////                in.close();
+////            }
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        }
+////aca
+////        comPort.closePort();
+////        comPort.openPort();
+////        comPort.addDataListener(new listenerMio(comPort));
+////
+////        try {
+////            Thread.sleep(5000);
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        }
+////        comPort.removeDataListener();
+////        comPort.closePort();
+////        while (true) {
+////            while (comPort.bytesAvailable() == 0) {
+////                try {
+////                    Thread.sleep(20);
+////                } catch (InterruptedException ex) {
+////                    Logger.getLogger(SniffiemoRoberto2.class.getName()).log(Level.SEVERE, null, ex);
+////                }
+////            }
+////
+////        }
+////        try {
+////            while (true) {
+////                while (comPort.bytesAvailable() == 0) {
+////                    Thread.sleep(20);
+////                }
+////
+////                byte[] readBuffer = new byte[comPort.bytesAvailable()];
+////                
+////                int numRead = comPort.readBytes(readBuffer, readBuffer.length);
+////                System.out.println("Read " + numRead + " bytes.");
+////            }
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        }
+////comPort.closePort();
+//    }
+//
+//    static class listenerMio implements SerialPortMessageListener {
+//
+//        SerialPort comPort;
+//
+//        public listenerMio(SerialPort comPort) {
+//            this.comPort = comPort;
+//        }
+//
+//        @Override
+//        public int getListeningEvents() {
+//            //return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
+//            return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+//        }
+//
+//        @Override
+//        public byte[] getMessageDelimiter() {
+//            return new byte[]{(byte) 0x5A, (byte) 0xA5};
+//        }
+//
+//        @Override
+//        public boolean delimiterIndicatesEndOfMessage() {
+//            return false;
+//        }
+//
+//        @Override
+//        public void serialEvent(SerialPortEvent spe) {
+//            System.out.println("-> Evento 2");
+//            if (spe.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
+//                return;
+//            }
+////            byte[] newData = new byte[comPort.bytesAvailable()];
+////            int numRead = comPort.readBytes(newData, newData.length);
+////            System.out.println("Read " + numRead + " bytes.");
+//
+////            byte[] newData = spe.getReceivedData();
+////            byte[] newData = new byte[comPort.bytesAvailable()];
+////            System.out.println("Received data of size: " + newData.length);
+////            for (int i = 0; i < newData.length; ++i) {
+////                System.out.print((char) newData[i]);
+////            }
+////            System.out.println("\n");
+//            //byte[] delimitedMessage = spe.getReceivedData();
+//            byte[] newData = new byte[comPort.bytesAvailable()];
+//            Object aux = spe.getReceivedData();
+//            System.out.println("Received the following delimited message: " + aux.toString());
+//        }
+//    }
+//
+//    public static void listarPuertosSeriales() {
+//        System.out.println("Puertos Seriales:");
+//
+//        SerialPort[] ports = SerialPort.getCommPorts();
+//
+//        for (SerialPort port : ports) {
+//            System.out.println(port.getSystemPortName());
+//        }
+//    }
+}
